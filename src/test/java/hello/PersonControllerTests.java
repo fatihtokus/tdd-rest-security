@@ -36,28 +36,37 @@ public class PersonControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private PersonRepository personRepository;
+
 
     @Test
     public void testAddAPerson() throws Exception {
+        personRepository.deleteAll();
+
         this.mockMvc.perform(get("/person/add").param("name", "Selim")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Selim"));
     }
 
     @Test
     public void testAddAPersonWithADefaultName() throws Exception {
+        personRepository.deleteAll();
+
         this.mockMvc.perform(get("/person/add")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Person 1"));
 
         this.mockMvc.perform(get("/person/add")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Person 2"));
     }
 
 
     @Test
     public void testListAllPerson() throws Exception {
+        personRepository.deleteAll();
+
         //No person
         this.mockMvc.perform(get("/person/all")).andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(0));

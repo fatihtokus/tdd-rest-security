@@ -1,0 +1,10 @@
+/.idea/
+*.iml
+/target/
+/lib
+/build/
+/.gradle/
+module_testsuit.xml
+test_suit.properties
+test_suit.xml
+
